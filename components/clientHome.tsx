@@ -41,35 +41,41 @@ export default function ClientHome({ initialArticles }: { initialArticles: Artic
         }}
         className="w-full p-2 border border-gray-300 rounded mb-4"
       />
-      <table className="w-full border-collapse border border-gray-300">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="border px-4 py-2">Title</th>
-            <th className="border px-4 py-2">Published</th>
-            <th className="border px-4 py-2">Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          {paginatedArticles.map((article, idx) => (
-            <tr key={idx} className="hover:bg-gray-50">
-              <td className="border px-4 py-2">{article.title}</td>
-              <td className="border px-4 py-2">
-                {new Date(article.publishedAt).toLocaleDateString()}
-              </td>
-              <td className="border px-4 py-2">
-                <a
-                  href={article.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  Read
-                </a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {paginatedArticles.map((article, idx) => (
+    <div
+      key={idx}
+      className="border rounded-lg shadow hover:shadow-lg transition duration-300 overflow-hidden"
+    >
+      {article.urlToImage ? (
+        <img
+          src={article.urlToImage}
+          alt={article.title}
+          className="w-full h-48 object-cover"
+        />
+      ) : (
+        <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-500">
+          No Image
+        </div>
+      )}
+      <div className="p-4">
+        <h2 className="text-lg font-semibold mb-2">{article.title}</h2>
+        <p className="text-sm text-gray-600 mb-2">
+          {new Date(article.publishedAt).toLocaleDateString()}
+        </p>
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:underline text-sm"
+        >
+          Read more
+        </a>
+      </div>
+    </div>
+  ))}
+</div>
+
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
